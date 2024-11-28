@@ -1,74 +1,55 @@
 "use client"
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { useState } from 'react'
-import type { ContactFormData } from '@/types'
+import React from 'react'
 
 export default function Contact() {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    email: '',
-    message: ''
-  })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log(formData)
-    // Add form submission logic here
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
-
   return (
-    <section id="contact" className="bg-white py-12 md:py-24">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
-        <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+    <section id="contact" className="py-24 px-6">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-4xl font-bold mb-16 text-[#ccd6f6]">
+          Get in Touch
+        </h2>
+        <form className="max-w-xl space-y-8">
+          <div>
+            <label htmlFor="name" className="text-lg mb-2 block text-[#8892b0]">
               Name
             </label>
-            <Input
+            <input
+              type="text"
               id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
+              className="w-full bg-transparent border border-[#233554] rounded px-4 py-3 text-[#8892b0]
+                       focus:border-[#64ffda] focus:outline-none transition-colors"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <div>
+            <label htmlFor="email" className="text-lg mb-2 block text-[#8892b0]">
               Email
             </label>
-            <Input
-              id="email"
-              name="email"
+            <input
               type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              id="email"
+              className="w-full bg-transparent border border-[#233554] rounded px-4 py-3 text-[#8892b0]
+                       focus:border-[#64ffda] focus:outline-none transition-colors"
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+          <div>
+            <label htmlFor="message" className="text-lg mb-2 block text-[#8892b0]">
               Message
             </label>
-            <Textarea
+            <textarea
               id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
+              rows={5}
+              className="w-full bg-transparent border border-[#233554] rounded px-4 py-3 text-[#8892b0]
+                       focus:border-[#64ffda] focus:outline-none transition-colors"
             />
           </div>
-          <Button type="submit" className="w-full">
+          <button 
+            type="submit"
+            className="font-mono text-[#64ffda] border border-[#64ffda] px-6 py-4 rounded
+                     hover:bg-[#64ffda]/10 transition-colors"
+          >
             Send Message
-          </Button>
+          </button>
         </form>
       </div>
     </section>
