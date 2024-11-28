@@ -1,8 +1,9 @@
 'use client'
 
+import React from 'react'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
-import type { BlogPost } from '@/lib/blog'
+import type { BlogPost } from '@/types'
 
 const components = {
   types: {
@@ -72,4 +73,4 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
       </div>
     </article>
   )
-} 
+}

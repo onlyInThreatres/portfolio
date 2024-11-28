@@ -1,27 +1,40 @@
 export interface BlogPost {
+  _id: string
+  _type: string
   title: string
   slug: string
-  description: string
-  date: string
-  readingTime: string
-  tags: string[]
-  published: boolean
-  content: React.ReactNode
+  excerpt: string | null
+  publishedAt: string
+  mainImage?: {
+    asset: {
+      _id: string
+      url: string
+    }
+  }
+  body: any[] // TODO: Type this properly with Portable Text types
+  estimatedReadTime: number
+  category: string | null
 }
 
-export type BlogCategory = 
-  | 'Cloud RAN'
-  | '5G Technology'
-  | 'Network Architecture'
-  | 'Telecommunications'
-  | 'Web Development'
-  | 'Cloud Architecture'
-
-export interface BlogFrontmatter {
+export interface Project {
+  id: string
   title: string
   description: string
-  date: string
-  category: BlogCategory
-  tags: string[]
-  published: boolean
+  technologies: string[]
+  imageUrl: string
+  githubUrl?: string
+  liveUrl?: string
+}
+
+export interface ProjectCardProps {
+  title: string
+  description: string
+  technologies: string[]
+  imageUrl: string
+  githubUrl?: string
+  liveUrl?: string
+}
+
+export interface BlogCardProps {
+  post: BlogPost
 } 
