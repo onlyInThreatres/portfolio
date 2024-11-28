@@ -1,21 +1,28 @@
 import { createClient } from 'next-sanity'
 
+// Environment variables
 export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-03-14'
 
+// Client configuration
 export const client = createClient({
   projectId,
   dataset,
-  apiVersion: '2024-03-14',
-  useCdn: false,
+  apiVersion,
+  useCdn: process.env.NODE_ENV === 'production',
   perspective: 'published',
-  token: process.env.SANITY_API_TOKEN
+  // Include token only if it exists
+  ...(process.env.SANITY_API_TOKEN && {
+    token: process.env.SANITY_API_TOKEN
+  })
 })
 
-export async function testSanityConnection() {
+// Utility function to check connection
+export async function sanityCheck() {
   try {
-    const result = await client.fetch(`*[_type == "post" && !(_id in path("drafts.**"))][0]`)
-    console.log('Sanity connection test:', result)
+    const result = await client.fetch(`*[_type == "post"][0]`)
+    console.log('Sanity connection successful:', !!result)
     return true
   } catch (error) {
     console.error('Sanity connection error:', error)
