@@ -44,6 +44,3 @@ next-env.d.ts
 
 # Sanity
 /public/studio
-
-# Optional: local content files if you're using a CMS
-/content
