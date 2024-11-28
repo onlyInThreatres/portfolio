@@ -1,24 +1,9 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { processMDX } from './mdx/config'
-import type { MDXFrontmatter } from './mdx/config'
-import type { ReactElement } from 'react'
-
-export interface BlogPost extends MDXFrontmatter {
-  slug: string
-  content: ReactElement
-  readingTime: string
-  excerpt: string
-}
+import type { BlogPost, BlogFrontmatter } from '@/types'
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog')
-
-// Generate excerpt from content
-function generateExcerpt(content: string, maxLength = 160): string {
-  const plainText = content.replace(/\s+/g, ' ').trim()
-  if (plainText.length <= maxLength) return plainText
-  return plainText.slice(0, maxLength).trim() + '...'
-}
 
 // Calculate reading time for a post
 function calculateReadingTime(content: string): string {
@@ -40,22 +25,21 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           const filePath = path.join(POSTS_DIR, file)
           const fileContent = await fs.readFile(filePath, 'utf8')
           
-          const { content, frontmatter } = await processMDX(fileContent)
+          const { content, frontmatter } = await processMDX<BlogFrontmatter>(fileContent)
           const slug = file.replace('.mdx', '')
           
           return {
+            ...frontmatter,
             slug,
             content,
             readingTime: calculateReadingTime(fileContent),
-            excerpt: generateExcerpt(fileContent),
-            ...frontmatter,
-          } as BlogPost
+          }
         })
     )
     
     // Sort posts by date, newest first
     return posts
-      .filter(post => post.published !== false) // Only return published posts
+      .filter(post => post.published)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   } catch (error) {
     console.error('Error getting blog posts:', error)
@@ -63,45 +47,34 @@ export async function getAllPosts(): Promise<BlogPost[]> {
   }
 }
 
-// Get a single post by its slug
-export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
-  try {
-    const filePath = path.join(POSTS_DIR, `${slug}.mdx`)
-    const fileContent = await fs.readFile(filePath, 'utf8')
-    
-    const { content, frontmatter } = await processMDX(fileContent)
-    
-    if (!frontmatter.published) {
-      return null
+// Get posts by category
+export async function getPostsByCategory(category: BlogCategory): Promise<BlogPost[]> {
+  const posts = await getAllPosts()
+  return posts.filter(post => post.category === category)
+}
+
+// Get all categories with post counts
+export async function getCategories(): Promise<Array<{ name: BlogCategory; count: number }>> {
+  const posts = await getAllPosts()
+  const categories = posts.reduce((acc, post) => {
+    acc[post.category] = (acc[post.category] || 0) + 1
+    return acc
+  }, {} as Record<BlogCategory, number>)
+
+  return Object.entries(categories).map(([name, count]) => ({
+    name: name as BlogCategory,
+    count
+  }))
+}
+
+// Group posts by year
+export function groupPostsByYear(posts: BlogPost[]): Record<string, BlogPost[]> {
+  return posts.reduce((acc, post) => {
+    const year = new Date(post.date).getFullYear().toString()
+    if (!acc[year]) {
+      acc[year] = []
     }
-    
-    return {
-      slug,
-      content,
-      readingTime: calculateReadingTime(fileContent),
-      excerpt: generateExcerpt(fileContent),
-      ...frontmatter,
-    } as BlogPost
-  } catch (error) {
-    console.error(`Error getting post ${slug}:`, error)
-    return null
-  }
-}
-
-// Get posts by tag
-export async function getPostsByTag(tag: string): Promise<BlogPost[]> {
-  const posts = await getAllPosts()
-  return posts.filter(post => post.tags?.includes(tag))
-}
-
-// Get all unique tags from posts
-export async function getAllTags(): Promise<string[]> {
-  const posts = await getAllPosts()
-  const tags = new Set<string>()
-  
-  posts.forEach(post => {
-    post.tags?.forEach(tag => tags.add(tag))
-  })
-  
-  return Array.from(tags).sort()
+    acc[year].push(post)
+    return acc
+  }, {} as Record<string, BlogPost[]>)
 } 
