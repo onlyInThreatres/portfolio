@@ -18,7 +18,7 @@ export function ProjectCard({
   technologies,
 }: ProjectCardProps) {
   return (
-    <div className="relative aspect-video rounded-xl overflow-hidden bg-card/30 backdrop-blur-sm">
+    <div className="relative aspect-video rounded-xl overflow-hidden bg-card/30 backdrop-blur-sm group">
       <Image
         src={imageUrl}
         alt={`Screenshot of ${title}`}
@@ -27,7 +27,19 @@ export function ProjectCard({
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         priority={true}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-background/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute bottom-0 p-6">
+          <h3 className="text-xl font-bold mb-2">{title}</h3>
+          <p className="text-sm text-muted-foreground mb-4">{description}</p>
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((tech) => (
+              <span key={tech} className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

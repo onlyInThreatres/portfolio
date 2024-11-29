@@ -1,13 +1,14 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Header from '@/components/Header'
 import '@/styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Your Portfolio',
-  description: 'Your portfolio description'
+  title: 'Mustafa Hassan - Telecom Engineer',
+  description: 'Telecommunications and Cloud Solutions Expert',
 }
 
 export default function RootLayout({
@@ -17,7 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} bg-[#0a192f]`}>
+        <Header />
+        <main>{children}</main>
+      </body>
     </html>
   )
 } 

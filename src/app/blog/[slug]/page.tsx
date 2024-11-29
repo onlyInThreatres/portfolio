@@ -4,16 +4,6 @@ import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import type { PortableTextReactComponents } from '@portabletext/react'
 
-interface ComponentProps {
-  value: {
-    asset?: {
-      url: string
-    }
-    alt?: string
-  }
-  children?: React.ReactNode
-}
-
 interface PortableTextProps {
   children?: React.ReactNode
 }
