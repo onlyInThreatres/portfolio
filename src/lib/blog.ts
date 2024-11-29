@@ -1,5 +1,6 @@
 import { client } from './sanity.client'
 import { groq } from 'next-sanity'
+import type { PortableTextBlock } from '@portabletext/types'
 
 export interface BlogPost {
   _id: string
@@ -14,7 +15,7 @@ export interface BlogPost {
       url: string
     }
   }
-  body: any[]
+  body: PortableTextBlock[]
   estimatedReadTime: number
   category: string | null
 }
@@ -88,4 +89,8 @@ export async function getAllPosts() {
       )
     }`
   )
+}
+
+export async function formatPost(): Promise<BlogPost> {
+  throw new Error('Not implemented')
 } 

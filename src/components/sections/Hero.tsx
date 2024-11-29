@@ -19,8 +19,8 @@ export default function Hero() {
         </h2>
         
         <p className="text-[#8892b0] text-lg max-w-xl mb-12 leading-relaxed">
-          I'm a telecommunications engineer specializing in building (and occasionally designing) 
-          exceptional digital infrastructures. Currently, I'm focused on building accessible, 
+          I&apos;m a telecommunications engineer specializing in building (and occasionally designing) 
+          exceptional digital infrastructures. Currently, I&apos;m focused on building accessible, 
           human-centered solutions at Telecom.
         </p>
         

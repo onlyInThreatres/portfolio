@@ -6,7 +6,7 @@ export default function BlogNotFound() {
       <div className="container max-w-3xl mx-auto px-4 text-center">
         <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
         <p className="text-muted-foreground mb-8">
-          Sorry, the blog post you're looking for doesn't exist.
+          We couldn&apos;t find the blog post you&apos;re looking for.
         </p>
         <Link 
           href="/blog"

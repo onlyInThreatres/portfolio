@@ -1,20 +1,5 @@
-interface ProjectCase {
-  title: string;
-  challenge: string;
-  solution: string;
-  impact: string;
-  technologies: string[];
-  metrics?: {
-    performance?: string;
-    scalability?: string;
-    efficiency?: string;
-  };
-} 
-
-// src/components/projects/ProjectCard.tsx
-import { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 interface ProjectCardProps {
   title: string
