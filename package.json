@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@portabletext/react": "^3.1.0",
@@ -17,6 +18,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^4.1.0",
+    "gray-matter": "^4.0.3",
     "groq": "^3.65.1",
     "lucide-react": "^0.294.0",
     "next": "^14.2.18",
@@ -34,10 +36,12 @@
     "unsplash-js": "^7.0.19"
   },
   "devDependencies": {
+    "@portabletext/types": "^2.0.13",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/unsplash-js": "^6.3.1",
     "autoprefixer": "^10.0.1",
     "eslint": "8.57.1",
     "eslint-config-next": "15.0.3",

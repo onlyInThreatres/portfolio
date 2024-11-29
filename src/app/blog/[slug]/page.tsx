@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getPostBySlug } from '@/lib/blog'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
+import type { PortableTextReactComponents } from '@portabletext/react'
 
 interface ComponentProps {
   value: {
@@ -13,32 +14,21 @@ interface ComponentProps {
   children?: React.ReactNode
 }
 
-const components = {
-  types: {
-    image: ({value}: ComponentProps) => {
-      if (!value?.asset?.url) return null
-      return (
-        <div className="relative w-full h-[400px] my-8">
-          <Image
-            src={value.asset.url}
-            alt={value.alt || ''}
-            fill
-            className="object-cover rounded-lg"
-          />
-        </div>
-      )
-    },
-  },
+interface PortableTextProps {
+  children?: React.ReactNode
+}
+
+const components: Partial<PortableTextReactComponents> = {
   block: {
-    normal: ({children}: ComponentProps) => <p className="mb-4">{children}</p>,
-    h1: ({children}: ComponentProps) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
-    h2: ({children}: ComponentProps) => <h2 className="text-2xl font-bold mt-6 mb-3">{children}</h2>,
-    h3: ({children}: ComponentProps) => <h3 className="text-xl font-bold mt-4 mb-2">{children}</h3>,
+    normal: ({ children }: PortableTextProps) => <p className="mb-4">{children}</p>,
+    h1: ({ children }: PortableTextProps) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
+    h2: ({ children }: PortableTextProps) => <h2 className="text-2xl font-bold mt-6 mb-3">{children}</h2>,
+    h3: ({ children }: PortableTextProps) => <h3 className="text-xl font-bold mt-4 mb-2">{children}</h3>,
   },
   marks: {
-    strong: ({children}: ComponentProps) => <strong>{children}</strong>,
-    em: ({children}: ComponentProps) => <em>{children}</em>,
-    code: ({children}: ComponentProps) => (
+    strong: ({ children }: PortableTextProps) => <strong>{children}</strong>,
+    em: ({ children }: PortableTextProps) => <em>{children}</em>,
+    code: ({ children }: PortableTextProps) => (
       <code className="bg-muted px-1.5 py-0.5 rounded text-sm">{children}</code>
     ),
   },

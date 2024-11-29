@@ -5,10 +5,20 @@ import { existsSync } from 'fs'
 
 const postsDirectory = path.join(process.cwd(), 'posts')
 
-export async function getBlogPosts() {
+interface BlogPostData {
+  slug: string
+  title: string
+  publishedAt: string
+  content: string
+  excerpt?: string
+  tags?: string[]
+}
+
+export async function getAllPosts(): Promise<BlogPostData[]> {
   if (!existsSync(postsDirectory)) {
     return []
   }
+  
   const fileNames = await fs.readdir(postsDirectory)
   const allPostsData = await Promise.all(
     fileNames.map(async (fileName) => {
@@ -19,27 +29,36 @@ export async function getBlogPosts() {
 
       return {
         slug,
-        ...data,
+        title: data.title,
+        publishedAt: data.publishedAt || data.date,
         content,
-      }
+        excerpt: data.excerpt,
+        tags: data.tags,
+      } as BlogPostData
     })
   )
 
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
+  return allPostsData.sort((a, b) => (
+    new Date(a.publishedAt) < new Date(b.publishedAt) ? 1 : -1
+  ))
 }
 
-export async function getBlogPost(slug: string) {
+export async function getBlogPost(slug: string): Promise<BlogPostData | null> {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`)
   if (!existsSync(fullPath)) {
     return null
   }
+  
   const fileContents = await fs.readFile(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
 
   return {
     slug,
-    ...data,
+    title: data.title,
+    publishedAt: data.publishedAt || data.date,
     content,
+    excerpt: data.excerpt,
+    tags: data.tags,
   }
 }
 

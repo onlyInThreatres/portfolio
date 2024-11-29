@@ -14,7 +14,9 @@ interface ProjectCardProps {
 export function ProjectCard({
   title,
   imageUrl,
-}: Pick<ProjectCardProps, 'title' | 'imageUrl'>) {
+  description,
+  technologies,
+}: ProjectCardProps) {
   return (
     <div className="relative aspect-video rounded-xl overflow-hidden bg-card/30 backdrop-blur-sm">
       <Image

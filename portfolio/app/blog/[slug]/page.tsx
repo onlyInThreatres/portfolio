@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import { getBlogPost } from '@/lib/blog'
-import OptimizedImage from '@/components/OptimizedImage'
+import { getPostBySlug } from '@/lib/blog'
+import { PortableText } from '@portabletext/react'
+import Image from 'next/image'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = await getBlogPost(params.slug)
+  const post = await getPostBySlug(params.slug)
   if (!post) return {}
 
   return {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await getBlogPost(params.slug)
+  const post = await getPostBySlug(params.slug)
 
   if (!post) notFound()
 
@@ -52,14 +52,16 @@ export default async function BlogPost({ params }: { params: { slug: string } })
         })}
       </time>
       {post.coverImage && (
-        <OptimizedImage
+        <Image
           src={post.coverImage}
           alt={post.title}
           className="mb-8 rounded-lg"
+          width={1200}
+          height={800}
         />
       )}
       <div className="prose prose-lg max-w-none">
-        <MDXRemote source={post.content} />
+        <PortableText value={post.content} />
       </div>
     </article>
   )

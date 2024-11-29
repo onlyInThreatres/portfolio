@@ -61,7 +61,7 @@ export default function ProjectsPage() {
                 <h3 className="text-2xl font-bold">{project.title}</h3>
                 <p className="text-muted-foreground">{project.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
+                  {project.technologies.map((tech: string) => (
                     <span 
                       key={tech}
                       className="px-3 py-1 text-sm rounded-full bg-primary/10 text-primary"

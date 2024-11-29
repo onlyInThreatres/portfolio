@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/blog'
 import { BlogCard } from '@/components/blog/BlogCard'
+import type { BlogPost } from '@/types'
 
 export default async function BlogPage() {
   const posts = await getAllPosts()
@@ -15,7 +16,7 @@ export default async function BlogPage() {
         </header>
 
         <div className="grid gap-8">
-          {posts.map((post) => (
+          {posts.map((post: BlogPost) => (
             <BlogCard key={post.slug} post={post} />
           ))}
         </div>
